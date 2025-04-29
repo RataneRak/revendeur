@@ -9,6 +9,3 @@ root.render(
     <App />
   </StrictMode>
 );
-
-// To start the development server, use the following command:
-// npm run dev

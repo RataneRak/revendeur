@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
-const TrendingSection = ({ cars, deleteCar }) => {
+const TrendingSection = ({ cars }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const carsPerPage = 4;
 
-  // Calculer les voitures à afficher
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
   const currentCars = cars.slice(indexOfFirstCar, indexOfLastCar);
@@ -13,7 +12,7 @@ const TrendingSection = ({ cars, deleteCar }) => {
 
   return (
     <div className="trending-section py-8 px-6">
-      <h2 className="text-2xl font-bold text-secondary mb-6">
+      <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         Tendance en ce moment
       </h2>
       <div className="car-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -21,7 +20,7 @@ const TrendingSection = ({ cars, deleteCar }) => {
           currentCars.map((car, index) => (
             <div
               key={index}
-              className="car-card bg-white shadow-md rounded-lg overflow-hidden"
+              className="car-card bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
               <img
                 src={car.image}
@@ -29,19 +28,15 @@ const TrendingSection = ({ cars, deleteCar }) => {
                 className="car-image w-full h-40 object-cover"
               />
               <div className="car-info p-4">
-                <h3 className="car-title font-bold text-lg">{car.title}</h3>
-                <div className="car-price text-primary font-bold text-xl">
+                <h3 className="car-title font-bold text-lg text-gray-800">
+                  {car.title}
+                </h3>
+                <div className="car-price text-orange-500 font-bold text-xl">
                   {car.price}
                 </div>
-                <div className="car-details text-sm text-dark">
+                <div className="car-details text-sm text-gray-600">
                   {car.details}
                 </div>
-                <button
-                  onClick={() => deleteCar(index)}
-                  className="mt-2 text-red-500 hover:underline"
-                >
-                  Supprimer
-                </button>
               </div>
             </div>
           ))
@@ -51,17 +46,16 @@ const TrendingSection = ({ cars, deleteCar }) => {
           </p>
         )}
       </div>
-      {/* Pagination */}
-      <div className="pagination mt-4 flex justify-center space-x-2">
+      <div className="pagination mt-6 flex justify-center space-x-2">
         {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i}
             onClick={() => setCurrentPage(i + 1)}
-            className={`px-3 py-1 rounded ${
+            className={`px-4 py-2 rounded-full ${
               currentPage === i + 1
-                ? "bg-primary text-white"
+                ? "bg-orange-500 text-white"
                 : "bg-gray-200 text-gray-700"
-            }`}
+            } hover:bg-orange-400 transition`}
           >
             {i + 1}
           </button>

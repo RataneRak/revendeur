@@ -1,6 +1,12 @@
 // App.js
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import CoverPage from "./components/CoverPage"; // Importer la page de couverture
 import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import Categories from "./components/Categories";
@@ -11,6 +17,8 @@ import AdBanner from "./components/AdBanner";
 import AdminLayout from "./admin/AdminLayout";
 import AdminDashboard from "./admin/AdminDashboard";
 import ManageCars from "./admin/ManageCars";
+import NewCars from "./pages/NewCars";
+import PopularCars from "./pages/PopularCars";
 
 const App = () => {
   const [cars, setCars] = useState([]);
@@ -28,9 +36,15 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Page de couverture */}
+        <Route path="/cover" element={<CoverPage />} />
+
+        {/* Redirection de `/` vers `/cover` */}
+        <Route path="/" element={<Navigate to="/cover" />} />
+
         {/* Page principale */}
         <Route
-          path="/"
+          path="/main"
           element={
             <div>
               <Header />
@@ -43,6 +57,15 @@ const App = () => {
             </div>
           }
         />
+
+        {/* Route pour les filtres */}
+        <Route path="/filters" element={<Filters />} />
+
+        {/* Route pour les voitures "Nouveauté" */}
+        <Route path="/filters/new" element={<NewCars />} />
+
+        {/* Route pour les voitures "Populaire" */}
+        <Route path="/filters/popular" element={<PopularCars />} />
 
         {/* Pages admin */}
         <Route path="/admin" element={<AdminLayout />}>
