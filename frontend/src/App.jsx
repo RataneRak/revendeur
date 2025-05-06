@@ -17,8 +17,10 @@ import AdBanner from "./components/AdBanner";
 import AdminLayout from "./admin/AdminLayout";
 import AdminDashboard from "./admin/AdminDashboard";
 import ManageCars from "./admin/ManageCars";
+import ManageCategories from "./admin/ManageCategories";
 import NewCars from "./pages/NewCars";
 import PopularCars from "./pages/PopularCars";
+import CategoryPage from "./pages/CategoryPage";
 
 const App = () => {
   const [cars, setCars] = useState([]);
@@ -67,6 +69,12 @@ const App = () => {
         {/* Route pour les voitures "Populaire" */}
         <Route path="/filters/popular" element={<PopularCars />} />
 
+        {/* Route dynamique pour les catégories */}
+        <Route
+          path="/category/:categoryName"
+          element={<CategoryPage cars={cars} />}
+        />
+
         {/* Pages admin */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
@@ -74,6 +82,7 @@ const App = () => {
             path="manage-cars"
             element={<ManageCars cars={cars} setCars={setCars} />}
           />
+          <Route path="manage-categories" element={<ManageCategories />} />
         </Route>
       </Routes>
     </Router>

@@ -20,6 +20,12 @@ const AdminLayout = () => {
           >
             <i className="fas fa-car mr-3"></i> Gérer les voitures
           </Link>
+          <Link
+            to="/admin/manage-categories"
+            className="flex items-center text-gray-300 hover:text-white transition"
+          >
+            <i className="fas fa-list mr-3"></i> Gérer les catégories
+          </Link>
         </nav>
         <div className="mt-auto text-center text-sm text-gray-500">
           © 2025 Hax Car Korea Auto
