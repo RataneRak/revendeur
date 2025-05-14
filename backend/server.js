@@ -1,43 +1,34 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes.js";
+import carRoutes from "./routes/carRoutes.js";
+import reservationRoutes from "./routes/reservationRoutes.js";
+
+// Charger les variables d'environnement
+dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// Middleware pour parser le JSON
 app.use(express.json());
 
-let cars = []; // Liste des voitures (stockée en mémoire)
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/cars", carRoutes);
+app.use("/api/reservations", reservationRoutes);
 
-// Récupérer toutes les voitures
-app.get("/api/cars", (req, res) => {
-  res.json(cars);
-});
-
-// Ajouter une voiture
-app.post("/api/cars", (req, res) => {
-  const newCar = { id: Date.now(), ...req.body };
-  cars.push(newCar);
-  res.status(201).json(newCar);
-});
-
-// Supprimer une voiture
-app.delete("/api/cars/:id", (req, res) => {
-  const { id } = req.params;
-  cars = cars.filter((car) => car.id !== parseInt(id));
-  res.status(200).json({ message: "Voiture supprimée avec succès" });
-});
-
-// Mettre à jour une voiture
-app.put("/api/cars/:id", (req, res) => {
-  const { id } = req.params;
-  const updatedCar = req.body;
-  cars = cars.map((car) =>
-    car.id === parseInt(id) ? { ...car, ...updatedCar } : car
-  );
-  res.status(200).json({ message: "Voiture mise à jour avec succès" });
-});
-
-app.listen(PORT, () => {
-  console.log(`Serveur backend démarré sur http://localhost:${PORT}`);
-});
+// Connexion à MongoDB
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("✅ Connecté à MongoDB");
+    app.listen(PORT, () =>
+      console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`)
+    );
+  })
+  .catch((err) => console.error("❌ Erreur de connexion MongoDB :", err));
